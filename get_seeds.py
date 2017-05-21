@@ -1,3 +1,6 @@
+""" Created a response variable for the data frame and added each team's
+seed. """
+
 import numpy as np
 import re
 
@@ -7,7 +10,7 @@ seeds = {}
 
 for i in range(len(data_seeds)):
 	year = int(data_seeds[i,0])
-	
+
 	s = data_seeds[i,1]
 	seed = int(re.sub("[^0-9]", "", s)) # remove non numeric chars
 
@@ -30,7 +33,7 @@ for i in range(len(results)):
 
 	w_wins = int(results[i,18])
 	l_wins = int(results[i,37])
-	
+
 	w_index = year*w_team
 	l_index = year*l_team
 
@@ -50,14 +53,9 @@ for i in range(len(results)):
 		else:
 			results[i,n-1] = '0'
 
-		# results[i,n-1] = '0' # teams have equal index
-
 	else:
 		results[i,n-1] = '0' # losing team has largest seed or upset
 
 round1 = np.genfromtxt("tourney_games.csv", dtype=str, delimiter=",")
 
 np.savetxt("results.csv", results, delimiter=",", fmt="%s")
-
-
-

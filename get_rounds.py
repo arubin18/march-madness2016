@@ -1,3 +1,6 @@
+""" This Python module was not used. Instead, separated the training data
+in R. """
+
 import numpy as np
 
 results = np.genfromtxt("results.csv", dtype=str, delimiter=",")
@@ -16,7 +19,7 @@ rnd = np.ones((1, n))
 for i in range(len(results)):
 
 	day_num = int(results[i,1])
-	
+
 	if day_num in round6:
 		rnd = np.vstack((rnd, results[i]))
 
@@ -25,4 +28,3 @@ rnd = np.delete(rnd, 0, 0) # delete first row of ones
 print (rnd)
 
 np.savetxt("round6.csv", rnd, delimiter=",", fmt="%s")
-

@@ -1,4 +1,7 @@
-import numpy as np 
+""" Calculates the season averages for every team and then returns this
+data into a txt file. """
+
+import numpy as np
 np.set_printoptions(suppress=True)
 
 data = np.genfromtxt("RegularSeasonDetailedResults.csv", dtype=str, delimiter=",")
@@ -11,12 +14,15 @@ length = 19
 team_stats = np.ones((1, length))
 
 def update_stats(season, teams, team, info):
+	""" Updates the season averages for a team in an inputed dictionary.
+	Returns the updated dictionary. """
 
 	if team not in teams:
 		teams[team] = np.zeros(length)
 		teams[team][0] = int(season)
 		teams[team][1] = int(team)
 		teams[team] += info
+
 	else:
 		teams[team] += info
 
@@ -26,7 +32,7 @@ for i in range(len(data)):
 
 	if season != data[i,0]:
 		season = data[i,0]
-		
+
 		for i in teams:
 			for j in range(3,len(teams[i])-2): # get averages
 				teams[i][j] = teams[i][j] / float(teams[i][2])
@@ -87,5 +93,3 @@ for i in teams:
 
 team_stats = np.delete(team_stats, 0, 0) # delete first row of ones
 np.savetxt("team_stats.csv", team_stats, delimiter=",", fmt="%s")
-
-
