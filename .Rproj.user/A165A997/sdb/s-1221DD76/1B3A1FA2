@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "rm(list=ls())\n\nsource(\"~/march_madness/get_matchups.R\")\nsource(\"~/march_madness/mean_centering.R\")\nsource(\"~/march_madness/get_winners.R\")\n\nround5_winners <- read_csv(\"~/march_madness/datasets/round5_winners.csv\")\nmatchups <- read_csv(\"~/march_madness/datasets/round6.csv\") # training data\nschedule6 <- read.csv(\"~/march_madness/datasets/round6_schedule.csv\") # round 6 schedule\n\ntest_correlations <- matchups\ntest_correlations$team <- NULL\ntest_correlations$opp_team <- NULL\n\ncor_relation <- round(cor(test_correlations), digits=3)\ncor_relation[abs(cor_relation) < 0.70] <- NA\n\nround6 <- get_matchups(schedule6, round5_winners, matchups)\n\nmatchups$seed_dif = matchups$opp_seed - matchups$seed\n\nmatchups.c = mean_centering(matchups, TRUE, TRUE)\n\nreg1 = glm(won~opp_ppp, data=matchups.c, family=binomial)\nsummary(reg1)\n\nroc(matchups$won, fitted(reg1), plot=T, legacy.axes=T)\n\n# opp total possessions\n\nreg2 = update(reg1, ~. + opp_total_possessions)\nsummary(reg2) # p value for opp ppp lowered \n\nanova(reg1, reg2, test=\"Chisq\") # additional term is not siginficant\n\n# use reg1\n\nrawresid1 = matchups$won - fitted(reg1)\n\nbinnedplot(x=matchups.c$opp_dppp, y=rawresid1) # many of the residuals are outside the bands\n\n### predictions\n\npredictions = predict(reg1, round6, type=\"response\")\nlabels = round(predictions)\n\nround6P <- round6\nround6P$won <- labels\n\nwrite.csv(round6P, \"~/march_madness/datasets/round6_predictions.csv\", row.names=FALSE)\n\nwinners <- get_winners(round6P)\nwrite.csv(winners, \"~/march_madness/datasets/round6_winners.csv\", row.names=FALSE)\n\n\n\n",
+    "created" : 1493951077695.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3815595124",
+    "id" : "1B3A1FA2",
+    "lastKnownWriteTime" : 1493926757,
+    "last_content_update" : 1493926757,
+    "path" : "~/march_madness/round6.R",
+    "project_path" : "round6.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

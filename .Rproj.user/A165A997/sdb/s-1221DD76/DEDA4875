@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1493952596139.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DEDA4875",
+    "lastKnownWriteTime" : 3544383690433888262,
+    "last_content_update" : 1493952596139,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "8E90837",
+        "caption" : "round5_winners",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=round5_winners&cache_key=8E90837",
+        "displayedObservations" : "2",
+        "environment" : "",
+        "object" : "round5_winners",
+        "preview" : "0",
+        "totalObservations" : "2",
+        "variables" : "33"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

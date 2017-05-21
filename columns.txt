@@ -1,0 +1,1 @@
+season,daynum,team,games,ppg,fgm,fga,fgm3,fga3,ftm,fta,or,dr,ast,to,stl,blk,pf,wins,points_allowed,opp_team,opp_games,opp_ppg,opp_fgm,opp_fga,opp_fgm3,opp_fga3,opp_ftm,opp_fta,opp_or,opp_dr,opp_ast,opp_to,opp_stl,opp_blk,opp_pf,opp_wins,opp_points_allowed,seed,opp_seed,won
