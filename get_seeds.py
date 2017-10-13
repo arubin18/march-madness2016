@@ -64,4 +64,6 @@ for i in range(len(results)):
 	else:
 		results[i,n-1] = '0'
 
+print (results[0])
+
 np.savetxt("results.csv", results, delimiter=",", fmt="%s") # export matchups with seeds and outcome variable 
