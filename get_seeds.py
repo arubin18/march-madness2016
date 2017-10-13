@@ -1,24 +1,26 @@
-""" Created a response variable for the data frame and added each team's
-seed. """
+""" Created a outcome variable for the data frame and added each team's
+seed. Exports new matchup array into a txt file. Run with Python 3. """
 
 import numpy as np
 import re
+np.set_printoptions(suppress=True)
 
-data_seeds = np.genfromtxt("TourneySeeds.csv", dtype=str, delimiter=",")
+data_seeds = np.genfromtxt("TourneySeeds.csv", dtype=str, delimiter=",") # seed of tournament teams for every season
 
 seeds = {}
 
 for i in range(len(data_seeds)):
-	year = int(data_seeds[i,0])
+
+	season = int(data_seeds[i,0])
 
 	s = data_seeds[i,1]
 	seed = int(re.sub("[^0-9]", "", s)) # remove non numeric chars
 
-	team = int(data_seeds[i,2])
-	index = year*team
-	seeds[index] = seed
+	team = int(data_seeds[i,2]) # team identifier 
+	index = season*team # special identifier 
+	seeds[index] = seed # seed of that team for that season 
 
-results = np.genfromtxt("tourney_games.csv", dtype=float, delimiter=",")
+results = np.genfromtxt("tourney_games.csv", dtype=float, delimiter=",") # tournament matchups 
 
 n = results.shape[1]
 
@@ -43,19 +45,23 @@ for i in range(len(results)):
 	results[i,n-3] = w_seed
 	results[i,n-2] = l_seed
 
+	# winning team has higher seed
 	if w_seed < l_seed:
-		results[i,n-1] = '1' # winning team has higher seed
+		results[i,n-1] = '1'
 
+	# seeds are equal 
 	elif w_seed == l_seed:
 
+		# winning team has more season wins 
 		if w_wins > l_wins:
 			results[i,n-1] = '1'
+
+		# losing team has more than or equal to the number of wins as the winning team 
 		else:
 			results[i,n-1] = '0'
 
+	# losing team has largest seed and the winning team has smaller seed (upset)
 	else:
-		results[i,n-1] = '0' # losing team has largest seed or upset
+		results[i,n-1] = '0'
 
-round1 = np.genfromtxt("tourney_games.csv", dtype=str, delimiter=",")
-
-np.savetxt("results.csv", results, delimiter=",", fmt="%s")
+np.savetxt("results.csv", results, delimiter=",", fmt="%s") # export matchups with seeds and outcome variable 

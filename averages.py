@@ -1,12 +1,13 @@
-""" Calculates the season averages for every team and then returns this
-data into a txt file. """
+""" Calculates the season averages for every team and then exports an array
+with these calculations into a txt file. Run with Python 3. """
 
 import numpy as np
 np.set_printoptions(suppress=True)
 
+# matchups and results from regular season games from all seasons 
 data = np.genfromtxt("RegularSeasonDetailedResults.csv", dtype=str, delimiter=",")
 
-teams = {}
+teams = {} # contains the season totals for every team 
 
 season = data[0,0] # starting season
 length = 19
@@ -14,7 +15,7 @@ length = 19
 team_stats = np.ones((1, length))
 
 def update_stats(season, teams, team, info):
-	""" Updates the season averages for a team in an inputed dictionary.
+	""" Updates the season totals for a team in an inputed dictionary.
 	Returns the updated dictionary. """
 
 	if team not in teams:
@@ -28,10 +29,13 @@ def update_stats(season, teams, team, info):
 
 	return teams
 
-for i in range(len(data)):
+for i in range(0,len(data)):
 
+
+	# last matchup of the season 
 	if season != data[i,0]:
-		season = data[i,0]
+
+		season = data[i,0] # update the season 
 
 		for i in teams:
 			for j in range(3,len(teams[i])-2): # get averages
@@ -60,6 +64,7 @@ for i in range(len(data)):
 		blk1 = int(data[i,19])
 		pf1 = int(data[i,20])
 		points_allowed1 = int(data[i,5])
+
 		info = [0, 0, 1, score1, fgm1, fga1, fgm31, fga31, ftm1, fta1, or1, dr1, ast1, to1, stl1, blk1, pf1,1, points_allowed1]
 
 		teams = update_stats(season, teams, team1, np.array(info))
@@ -84,6 +89,7 @@ for i in range(len(data)):
 
 		teams = update_stats(season, teams, team2, np.array(info))
 
+# dividing stat totals by games to get averages and append the arrays together 
 for i in teams:
 	for j in range(3,len(teams[i])-2): # get averages
 		teams[i][j] = teams[i][j] / float(teams[i][2])
@@ -92,4 +98,5 @@ for i in teams:
 	team_stats = np.vstack((team_stats, np.array(teams[i])))
 
 team_stats = np.delete(team_stats, 0, 0) # delete first row of ones
-np.savetxt("team_stats.csv", team_stats, delimiter=",", fmt="%s")
+
+np.savetxt("team_stats.csv", team_stats, delimiter=",", fmt="%s") # export regular season team info
